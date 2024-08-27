@@ -11,7 +11,9 @@ https://sprig.hackclub.com/gallery/getting_started
 const player = "p"
 const wall = "w"
 const touched = "t"
+const empty = "e"
 let moves = 0
+let totalmoves = 0
 let lastpressed = ""
 
 setLegend(
@@ -65,29 +67,71 @@ DD44DDDDDDDD44DD
 DD444444444444DD
 DD444444444444DD
 DDDDDDDDDDDDDDDD
-DDDDDDDDDDDDDDDD`]
+DDDDDDDDDDDDDDDD`],
+  [empty, bitmap`
+2222222222222222
+2222222222222222
+2222222222222222
+2222222222222222
+2222222222222222
+2222222222222222
+2222222222222222
+2222222222222222
+2222222222222222
+2222222222222222
+2222222222222222
+2222222222222222
+2222222222222222
+2222222222222222
+2222222222222222
+2222222222222222`]
+
 )
 
 setSolids([player, wall])
 
-let level = 0
+let level = 2
 const levels = [
   map`
 wwwwwwwwwwwwwww
-wp.....ww.....w
-wwwwww.ww.ww..w
-w.........ww.ww
-wwwww.........w
-w...wwwww..w.ww
-www.wwwww..w.ww
-www.w......w.ww
-w...w.....ww.ww
-w.wwwwwwwwww..w
-w........www..w
-w...ww.....w..w
-ww.www.www.w..w
-ww.....www....w
-wwwwwwwwwwwwwww`
+wpeeeeewweeeeew
+wwwwwwewwewweew
+weeeeeeeeewweww
+wwwwweeeeeeeeew
+weeewwwwweeweww
+wwwewwwwweeweww
+wwweweeeeeeweww
+weeeweeeeewweww
+wewwwwwwwwwweew
+weeeeeeeewwweew
+weeewweeeeeweew
+wwewwwewwweweew
+wweeeeewwweeeew
+wwwwwwwwwwwwwww`,
+  map`
+wwwwwwwwwwwwwww
+weeeeeeeeeeewww
+wewwwweweweewww
+wewewwepeweewww
+weeewwwweweeeew
+wweewwwweeeewew
+wweewwwwewewwew
+wwewwwwwewewwew
+weeeeeeeeeeeeew
+wwwwwwwwwwwwwww`,
+  map`
+wwwwwwwwwwww
+wpeeeeeeeeew
+wwwwwwwwwwew
+weeeeeeeeeew
+wewwwwewwwww
+weeeeeeweeew
+weewwweweeew
+weeeeeeeewww
+weewwwwwwwww
+weeweeeeeeew
+wweeeeeeeeew
+wwwwwwwwwwww`
 ]
 
 setMap(levels[level])
@@ -186,6 +230,10 @@ onInput("d", () => {
 
 })
 
+onInput("j", () => {
+  setMap(levels[level])
+})
+
 
 afterInput(() => {
   addText(`${moves}`, {
@@ -193,4 +241,21 @@ afterInput(() => {
     y: 1,
     color: color`8`
   })
+  const emptyTiles = getAll("e")
+
+
+  if (emptyTiles.length === 0) {
+    level++
+    const currentLevel = levels[level]
+    if (currentLevel !== undefined) {
+      setMap(currentLevel)
+      totalmoves += moves
+      moves = 0
+    } else {
+      totalmoves += moves
+      addText(`you took ${totalmoves} moves!`, {x: 3, y: 4, color: color`3` });
+
+    }
+  }
+
 })
