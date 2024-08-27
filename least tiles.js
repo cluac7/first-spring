@@ -90,7 +90,7 @@ DDDDDDDDDDDDDDDD`],
 
 setSolids([player, wall])
 
-let level = 2
+let level = 0
 const levels = [
   map`
 wwwwwwwwwwwwwww
@@ -131,7 +131,24 @@ weeeeeeeewww
 weewwwwwwwww
 weeweeeeeeew
 wweeeeeeeeew
-wwwwwwwwwwww`
+wwwwwwwwwwww`,
+  map`
+wwwwwwwwwww
+weeeeeeeeew
+wewwwwwwwew
+weeeeeewwew
+weeeeeewwew
+wwwwwwewwew
+weeeeeeeeew
+wewwwwwwwew
+weeeeewwwew
+wwwwwewwwew
+wweeeeeewew
+weeeeeeewew
+weeeeewwwew
+wwewwwwwwww
+wweeeepwwww
+wwwwwwwwwww`
 ]
 
 setMap(levels[level])
@@ -253,7 +270,7 @@ afterInput(() => {
       moves = 0
     } else {
       totalmoves += moves
-      addText(`you took ${totalmoves} moves!`, {x: 3, y: 4, color: color`3` });
+      addText(`you took ${totalmoves} moves!`, { x: 1, y: 4, color: color`3` });
 
     }
   }
