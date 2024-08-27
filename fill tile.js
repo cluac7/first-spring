@@ -52,14 +52,14 @@ DDDDDDDDDDDDDDDD
 DDDDDDDDDDDDDDDD
 DD444444444444DD
 DD444444444444DD
-DD448888888844DD
-DD448DDDDDD844DD
-DD448DDDDDD844DD
-DD448DDDDDD844DD
-DD448DDDDDD844DD
-DD448DDDDDD844DD
-DD448DDDDDD844DD
-DD448888888844DD
+DD44DDDDDDDD44DD
+DD44DDDDDDDD44DD
+DD44DDDDDDDD44DD
+DD44DDDDDDDD44DD
+DD44DDDDDDDD44DD
+DD44DDDDDDDD44DD
+DD44DDDDDDDD44DD
+DD44DDDDDDDD44DD
 DD444444444444DD
 DD444444444444DD
 DDDDDDDDDDDDDDDD
@@ -72,20 +72,20 @@ let level = 0
 const levels = [
   map`
 wwwwwwwwwwwwwww
-p......ww.wwwww
-wwwwww.ww......
-...........www.
-wwwww..........
-....wwwww..w.w.
-www.wwwww..w.w.
-www.w......w.w.
-....w.....ww.w.
-..wwwwwwwwww...
-.........www...
-....ww.....w...
-wwwww..www.w...
-w......www.....
-wwwwwwwwww....w`
+wp.....ww.wwwww
+wwwwww.ww.....w
+w..........wwww
+wwwww.........w
+w...wwwww..w.ww
+www.wwwww..w.ww
+www.w......w.ww
+w...w.....ww.ww
+w.wwwwwwwwww..w
+w........www..w
+w...ww.....w..w
+wwwww..www.w..w
+w......www....w
+wwwwwwwwwwwwwww`
 ]
 
 setMap(levels[level])
@@ -93,63 +93,79 @@ setMap(levels[level])
 setPushables({
   [ player ]: []
 })
-
 onInput("w", () => {
   const player = getFirst("p")
-  const futureY = player.y - 1
-  const futureTile = getTile(player.x, futureY)
-  addSprite(player.x, player.y, "t")
-
-  while (!futureTile.some(sprite => sprite.type === "w")) {
-    // Move the player up if there are no walls in the future tile
-    player.y = futureY
-    const futureY = player.y - 1
-    const futureTile = getTile(player.x, futureY)
+  let futureY = player.y -1
+  
+  // Continuously move the player to the right until a wall is encountered
+  while (!getTile(player.x, futureY).some(sprite => sprite.type === "w")) {
+    // Clear the current player position
+    clearTile(player.x, player.y)
     addSprite(player.x, player.y, "t")
+
+    // Move the player to the right
+    player.y = futureY
+    // Add the player back to the new position
+    addSprite(player.x, player.y, "p")
+    // Update the future position for the next iteration
+    futureY--
   }
 })
 onInput("s", () => {
   const player = getFirst("p")
-  const futureY = player.y + 1
-  const futureTile = getTile(player.x, futureY)
-  addSprite(player.x, player.y, "t")
-
-  while (!futureTile.some(sprite => sprite.type === "w")) {
-    // Move the player up if there are no walls in the future tile
-    player.y = futureY
-    const futureY = player.y + 1
-    const futureTile = getTile(player.x, futureY)
+  let futureY = player.y +1
+  
+  // Continuously move the player to the right until a wall is encountered
+  while (!getTile(player.x, futureY).some(sprite => sprite.type === "w")) {
+    // Clear the current player position
+    clearTile(player.x, player.y)
     addSprite(player.x, player.y, "t")
+
+    // Move the player to the right
+    player.y = futureY
+    // Add the player back to the new position
+    addSprite(player.x, player.y, "p")
+    // Update the future position for the next iteration
+    futureY++
   }
 })
 onInput("a", () => {
   const player = getFirst("p")
-  const futureX = player.x - 1
-  const futureTile = getTile(player.x, futureX)
-  addSprite(player.x, player.y, "t")
-
-  while (!futureTile.some(sprite => sprite.type === "w")) {
-    // Move the player up if there are no walls in the future tile
-    player.x = futureX
-    const futureX = player.x - 1
-    const futureTile = getTile(futureX, player.y)
+  let futureX = player.x - 1
+  
+  // Continuously move the player to the right until a wall is encountered
+  while (!getTile(futureX, player.y).some(sprite => sprite.type === "w")) {
+    // Clear the current player position
+    clearTile(player.x, player.y)
     addSprite(player.x, player.y, "t")
+
+    // Move the player to the right
+    player.x = futureX
+    // Add the player back to the new position
+    addSprite(player.x, player.y, "p")
+    // Update the future position for the next iteration
+    futureX--
   }
 })
 onInput("d", () => {
   const player = getFirst("p")
   let futureX = player.x + 1
-  let futureTile = getTile(futureX, player.y)
-  addSprite(player.x, player.y, "t")
-
-  while (!futureTile.some(sprite => sprite.type === "w")) {
-    // Move the player up if there are no walls in the future tile
-    player.x = futureX
-    let futureX = player.x + 1
-    let futureTile = getTile(player.x, futureX)
+  
+  // Continuously move the player to the right until a wall is encountered
+  while (!getTile(futureX, player.y).some(sprite => sprite.type === "w")) {
+    // Clear the current player position
+    clearTile(player.x, player.y)
     addSprite(player.x, player.y, "t")
+
+    // Move the player to the right
+    player.x = futureX
+    // Add the player back to the new position
+    addSprite(player.x, player.y, "p")
+    // Update the future position for the next iteration
+    futureX++
   }
 })
+
 
 afterInput(() => {
   
